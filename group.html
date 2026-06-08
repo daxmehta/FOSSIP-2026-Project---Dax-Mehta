@@ -13,7 +13,7 @@
         .map-title {
           position: absolute;
           top: 10px;
-          left: 90%;
+          left: 50%;
           transform: translateX(-36%);
           z-index: 1000;
           background: white;
@@ -162,10 +162,9 @@
         const markerIcon = icons[point.category] || defaultIcon;
 
         // Create the marker and assign the custom icon
-        const marker = L.marker(point.coords).bindPopup(
+        const marker = L.marker(point.coords, { icon: markerIcon }).bindPopup(
             `<strong>${point.name}</strong><br><span style="font-size:12px; color:#555;">${point.description}</span>`
         );
-        
         // Add to specific category group
         if (layers[point.category]) {
             marker.addTo(layers[point.category]);
@@ -230,7 +229,7 @@
       div.innerHTML += "<h4 style='margin: 0 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 4px;'> Map Legend </h4>";
       div.innerHTML += '<div style="margin-bottom: 6px;"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Tourist Places</div>';
       div.innerHTML += '<div><span style="display:inline-block; width:16px; height:16px; background:rgba(255, 255, 0, 0.3); border: 2px solid red; border-radius: 3px; vertical-align: middle; margin-right: 8px;"></span> Tourism Zone</div>';
-      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="H:\FOSSIP 2026\HTML Project\Trial VIII\Leisure" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Trial</div>';
+      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="Leisure.png" width="25" style="vertical-align: middle;horizontal-align: middle"> Trial</div>';
       return div;
     };
     legend.addTo(map);
