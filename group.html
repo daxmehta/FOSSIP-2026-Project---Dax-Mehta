@@ -130,9 +130,38 @@
         Heritage: L.featureGroup(),
         AllPoints: L.featureGroup() // Used just to calculate bounds easily
     };
+ 
+    /* N. Define Custom Icons 
+        const iconSettings = {
+            iconSize: [32, 32],      // Size of the image in pixels (width, height)
+            iconAnchor: [16, 32],    // Which point of the image touches the map coordinate (center, bottom)
+            popupAnchor: [0, -32]    // Where the popup opens relative to the anchor
+        };
+
+        const icons = {
+            Leisure: L.icon({ iconUrl: 'https://github.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/blob/0db27e9aa585d653ac57ba12d786cfd3e7f940ca/Leisure.png', ...iconSettings }),
+            Nature: L.icon({ iconUrl: 'images/nature-marker.png', ...iconSettings }),
+            Hindu: L.icon({ iconUrl: 'images/hindu-marker.png', ...iconSettings }),
+            Muslim: L.icon({ iconUrl: 'images/muslim-marker.png', ...iconSettings }),
+            Jain: L.icon({ iconUrl: 'images/jain-marker.png', ...iconSettings }),
+            Heritage: L.icon({ iconUrl: 'images/heritage-marker.png', ...iconSettings })
+        };
+    
+        // Fallback icon in case a category doesn't match
+        const defaultIcon = L.icon({
+            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34]
+        });
 
     /* 5. Loop through data and assign to correct category */
     pointsData.forEach(point => {
+
+        // Pick the correct icon based on the category, or use the default if not found
+        const markerIcon = icons[point.category] || defaultIcon;
+
+        // Create the marker and assign the custom icon
         const marker = L.marker(point.coords).bindPopup(
             `<strong>${point.name}</strong><br><span style="font-size:12px; color:#555;">${point.description}</span>`
         );
@@ -201,7 +230,7 @@
       div.innerHTML += "<h4 style='margin: 0 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 4px;'> Map Legend </h4>";
       div.innerHTML += '<div style="margin-bottom: 6px;"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Tourist Places</div>';
       div.innerHTML += '<div><span style="display:inline-block; width:16px; height:16px; background:rgba(255, 255, 0, 0.3); border: 2px solid red; border-radius: 3px; vertical-align: middle; margin-right: 8px;"></span> Tourism Zone</div>';
-      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="https://github.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/blob/0db27e9aa585d653ac57ba12d786cfd3e7f940ca/Leisure.png" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Trial</div>';
+      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="H:\FOSSIP 2026\HTML Project\Trial VIII\Leisure" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Trial</div>';
       return div;
     };
     legend.addTo(map);
