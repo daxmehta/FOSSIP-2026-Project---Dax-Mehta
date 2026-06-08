@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tourist Web GIS Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <style>
+        #map{
+            height:100vh;
+        }
+        .map-title {
+          position: absolute;
+          top: 10px;
+          left: 90%;
+          transform: translateX(-36%);
+          z-index: 1000;
+          background: white;
+          padding: 8px 12px;
+          font-size: 20px;
+          font-weight: bold;
+          border-radius: 5px;
+          box-shadow: 0 0 5px blue;
+          }
+        .legend {
+          background: white;
+          padding: 12px;
+          border-radius: 5px;
+          box-shadow: 0 0 5px rgba(0,0,0,0.4);
+          line-height: 24px;
+          font-size: 14px;
+          font-family: Arial, sans-serif;
+          max-width: 200px;
+          }
+        .legend img, .legend span {
+          vertical-align: middle;
+          margin-right: 8px;
+          }
+    </style>
+</head>
+
+<body>
+
+  <div class="map-title">Tourist Web Map</div>
+
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+
+    /* 1. Create Map Grid */
+    const map = L.map('map').setView([23.0232233, 72.5628561], 10);
+
+    /* 2. Add OpenStreetMap Basemap */
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap Contributors'
+    }).addTo(map);
+
+    /* 3. Categorized Tourist Markers Data Layer */
+    const pointsData = [
+      // --- LEISURE & CITY ---
+      { coords: [23.0232233, 72.5628561], category: "Leisure", name: "Ahmedabad City Center", description: "The central urban hub of Ahmedabad." },
+      { coords: [23.0397724, 72.5302251], category: "Leisure", name: "Alfa One/Nexus Mall", description: "A popular shopping and entertainment destination." },
+      { coords: [23.0163348, 72.5756518], category: "Leisure", name: "Atal Bridge", description: "An iconic, pedestrian-only suspension bridge over the Sabarmati River." },
+      { coords: [23.0232538, 72.5888430], category: "Leisure", name: "Manek Chowk Food Market", description: "A bustling city square that transforms into a famous late-night street food market." },
+      { coords: [23.0580125, 72.5204441], category: "Leisure", name: "Palladium Mall", description: "An upscale luxury shopping mall." },
+      { coords: [23.0918300, 72.5974017], category: "Leisure", name: "Narendra Modi Stadium", description: "The world's largest cricket stadium." },
+      { coords: [23.0288784, 72.5726698], category: "Leisure", name: "Sabarmati Riverfront", description: "A vibrant, 11 km urban riverfront promenade." },
+      { coords: [23.0796784, 72.4980980], category: "Leisure", name: "Science City Ahmedabad", description: "An expansive educational and entertainment center." },
+      { coords: [23.0362709, 72.5497716], category: "Leisure", name: "Amdavad ni Gufa", description: "An underground, cave-like art gallery designed by architect B.V. Doshi." },
+      { coords: [23.0261099, 72.5598967], category: "Leisure", name: "Law Garden Fashion Street", description: "A lively evening street market packed with colorful stalls." },
+      { coords: [23.0106631, 72.5993342], category: "Leisure", name: "EKA Arena", description: "A multi-purpose stadium seating 20,000 spectators." },
+      { coords: [23.0051198, 72.6051709], category: "Leisure", name: "Jaldhara Water World", description: "A lively family-friendly water park right on the Kankaria Lakefront." },
+      { coords: [23.0023088, 72.6034387], category: "Leisure", name: "Amrapali Funland", description: "A premier theme park on the Kankaria Lakefront." },
+      { coords: [23.0041907, 72.6038555], category: "Leisure", name: "Balvatika Fun Carnival Theme Park", description: "A popular, family-friendly lakeside children's park." },
+
+      // --- NATURE & PARKS ---
+      { coords: [23.0040246, 72.5991768], category: "Nature", name: "Kankaria Lake", description: "A historic circular lake featuring a walkway, balloon safari, and zoo." },
+      { coords: [23.1402505, 72.3927627], category: "Nature", name: "Thol Bird Sanctuary", description: "A serene freshwater lake surrounded by marshes, home to thousands of migratory birds." },
+      { coords: [23.1334327, 72.4001224], category: "Nature", name: "Thol Garden", description: "A peaceful green space located near the sanctuary." },
+      { coords: [22.9971212, 72.5624534], category: "Nature", name: "Biodiversity Riverfront Park", description: "An eco-friendly urban park preserving local flora and fauna." },
+      { coords: [22.8135824, 72.0453414], category: "Nature", name: "Nal Sarovar Bird Sanctuary", description: "A paradise for birdwatchers, this sanctuary hosts over 210 species of migratory birds." },
+      { coords: [23.0058333, 72.6012063], category: "Nature", name: "Nagina Wadi", description: "An island at the lake's center hosting a themed garden." },
+      { coords: [23.0263046, 72.5601261], category: "Nature", name: "Gujarat Tourism Law Garden", description: "An iconic urban park celebrated for its lively evening market." },
+      { coords: [23.0203060, 72.5561587], category: "Nature", name: "Parimal Garden", description: "An urban park in the Ambawadi area covering 8.5 acres." },
+      { coords: [23.0213500, 72.5790854], category: "Nature", name: "Lokmanya Tilak Garden", description: "Opened in 1905, featuring monuments, a bandstand, and a forest walk." },
+      { coords: [23.0041198, 72.5984150], category: "Nature", name: "Butterfly Park", description: "An eco-educational park on the lakefront featuring diverse butterfly species." },
+      { coords: [23.0087351, 72.6034916], category: "Nature", name: "Kamla Nehru Zoological Garden", description: "A sprawling lakeside zoo founded in 1951." },
+      { coords: [23.0220250, 72.5737392], category: "Nature", name: "Glow Garden", description: "An enchanting evening park inside the Flower Park featuring a 'Moon Trail'." },
+      { coords: [23.0164059, 72.5733338], category: "Nature", name: "Flower Park", description: "A vibrant 45,000-square-meter botanical park on the west bank." },
+      { coords: [23.0272514, 72.6326342], category: "Nature", name: "Lal Bahadur Shashtri Garden", description: "A lively municipal neighborhood park in eastern Ahmedabad." },
+
+      // --- RELIGIOUS (HINDU) ---
+      { coords: [22.8331650, 72.7646798], category: "Hindu", name: "Sri Siddhivinayak Devasthan", description: "A massive elephant-shaped Ganesha temple." },
+      { coords: [22.2467572, 71.9230296], category: "Hindu", name: "Shree Bhimnath Mahadev Temple", description: "A highly revered ancient site." },
+      { coords: [23.0282924, 72.5068905], category: "Hindu", name: "ISKCON Temple Ahmedabad", description: "A magnificent marble temple dedicated to Radha and Krishna." },
+      { coords: [23.0114117, 72.5809446], category: "Hindu", name: "Shri Jagannathji Mandir", description: "Famous for its annual chariot festival, the Rath Yatra." },
+
+      // --- RELIGIOUS (MUSLIM) ---
+      { coords: [23.0270767, 72.5810240], category: "Muslim", name: "Sidi Saiyyed Masjid", description: "A 16th-century mosque globally celebrated for its 'Tree of Life' stone lattice window." },
+      { coords: [22.9936468, 72.5057169], category: "Muslim", name: "Sarkhej Roza", description: "A Sufi mosque and tomb complex, often called the 'Acropolis of Ahmedabad'." },
+      { coords: [23.0241067, 72.5872022], category: "Muslim", name: "Jama Masjid", "description": "A grand Friday mosque built in 1424 by Sultan Ahmed Shah." },
+      { coords: [23.0141185, 72.6141991], category: "Muslim", name: "Jhulta Minar - Sidi Bashir Mosque", description: "Only the central gateway and two 'Shaking Minarets' survive." },
+
+      // --- RELIGIOUS (JAIN) ---
+      { coords: [23.0410954, 72.5894816], category: "Jain", name: "Hutheesing Jain Temple", description: "A stunning white marble temple known for its intricate carvings." },
+      { coords: [23.3632125, 72.0981139], category: "Jain", name: "Shree Manibhadra Veer Jain Tirth", description: "A peaceful Jain pilgrimage site." },
+
+      // --- HISTORICAL & HERITAGE ---
+      { coords: [23.1667364, 72.5801373], category: "Heritage", name: "Adalaj Ni Vav", description: "A spectacular five-story deep stepwell built in 1498." },
+      { coords: [23.0606636, 72.5803170], category: "Heritage", name: "Sabarmati Ashram", description: "The tranquil residence of Mahatma Gandhi and museum dedicated to India's freedom struggle." },
+      { coords: [22.5058718, 72.2401658], category: "Heritage", name: "National Maritime Heritage Complex", description: "Showcasing India's rich seafaring heritage in Lothal." },
+      { coords: [23.0543392, 72.5913453], category: "Heritage", name: "The Calico Museum of Textiles", description: "One of the world's most comprehensive collections of historical Indian fabrics." },
+      { coords: [23.0572596, 72.6872965], category: "Heritage", name: "Dastan Autoworld Vintage Car Museum", description: "Showcases over 120 pristine classic vehicles." },
+      { coords: [22.5221453, 72.2495717], category: "Heritage", name: "Lothal Archeological Remains", description: "A world-renowned site of the Indus Valley Civilization." },
+      { coords: [23.0406979, 72.6057336], category: "Heritage", name: "Dada Hari Vav", description: "An incredible five-story deep subterranean stepwell built in 1485." },
+      { coords: [23.0249520, 72.5972016], category: "Heritage", name: "Amrutvarshini Vav", description: "An 18th-century, 50-foot-deep stepwell famous for its rare L-shaped layout." }
+    ];
+
+    /* 4. Setup Feature Groups for the Categories */
+    const layers = {
+        Leisure: L.featureGroup(),
+        Nature: L.featureGroup(),
+        Hindu: L.featureGroup(),
+        Muslim: L.featureGroup(),
+        Jain: L.featureGroup(),
+        Heritage: L.featureGroup(),
+        AllPoints: L.featureGroup() // Used just to calculate bounds easily
+    };
+
+    /* 5. Loop through data and assign to correct category */
+    pointsData.forEach(point => {
+        const marker = L.marker(point.coords).bindPopup(
+            `<strong>${point.name}</strong><br><span style="font-size:12px; color:#555;">${point.description}</span>`
+        );
+        
+        // Add to specific category group
+        if (layers[point.category]) {
+            marker.addTo(layers[point.category]);
+        }
+        
+        // Add to the master group for bounding box calculation
+        marker.addTo(layers.AllPoints);
+    });
+
+    /* Turn ALL layers ON by default */
+    layers.Leisure.addTo(map);
+    layers.Nature.addTo(map);
+    layers.Hindu.addTo(map);
+    layers.Muslim.addTo(map);
+    layers.Jain.addTo(map);
+    layers.Heritage.addTo(map);
+
+    /* 6. GeoJSON Polygon Setup */
+    const polygonData = {
+        "type": "Feature",
+        "properties": { "name": "Tourism Wetland Reserve Zone" },
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+                [72.50,23.00], [72.65,23.00], [72.65,23.10], [72.50,23.10], [72.50,23.00]
+            ]]
+        }
+    };
+
+    const geolayer = L.geoJSON(polygonData, {
+        style: { color: "red", weight: 3, fillColor: "yellow", fillOpacity: 0.3 },
+        onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+                layer.bindPopup(`<strong>Zone Focus:</strong> ${feature.properties.name}`);
+            }
+        }
+    }).addTo(map);
+
+    /* 7. Fit Map Bounds Dynamically */
+    const fullMapBounds = L.featureGroup([layers.AllPoints, geolayer]);
+    map.fitBounds(fullMapBounds.getBounds(), { padding: [30, 30] });
+
+    /* 8. The Magic: Create the Interactive Layer Filter Control */
+    // This connects your category groups to a clickable menu!
+    const overlayControls = {
+        "🎡 Leisure & City Life": layers.Leisure,
+        "🌳 Nature & Parks": layers.Nature,
+        "🏛️ Historical & Heritage": layers.Heritage,
+        "🕉️ Religious (Hindu)": layers.Hindu,
+        "☪️ Religious (Muslim)": layers.Muslim,
+        "🛕 Religious (Jain)": layers.Jain,
+        "🟨 Ahmedabad District": geolayer
+    };
+
+    // Add the control panel to the top right
+    L.control.layers(null, overlayControls, { collapsed: true }).addTo(map);
+
+    /* 9. Legends */
+    const legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div','legend');
+      div.innerHTML += "<h4 style='margin: 0 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 4px;'> Map Legend </h4>";
+      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Tourist Places</div>';
+      div.innerHTML += '<div><span style="display:inline-block; width:16px; height:16px; background:rgba(255, 255, 0, 0.3); border: 2px solid red; border-radius: 3px; vertical-align: middle; margin-right: 8px;"></span> Tourism Zone</div>';
+      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="H:\FOSSIP 2026\HTML Project\Trial VIII\Leisure" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Trial</div>';
+      return div;
+    };
+    legend.addTo(map);
+
+  </script>
+
+</body>
+</html>
