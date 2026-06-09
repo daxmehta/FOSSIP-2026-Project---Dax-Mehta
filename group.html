@@ -139,12 +139,12 @@
         };
 
         const icons = {
-            Leisure: L.icon({ iconUrl: 'Leisure.png', ...iconSettings }),
-            Nature: L.icon({ iconUrl: 'images/nature-marker.png', ...iconSettings }),
-            Hindu: L.icon({ iconUrl: 'images/hindu-marker.png', ...iconSettings }),
-            Muslim: L.icon({ iconUrl: 'images/muslim-marker.png', ...iconSettings }),
-            Jain: L.icon({ iconUrl: 'images/jain-marker.png', ...iconSettings }),
-            Heritage: L.icon({ iconUrl: 'images/heritage-marker.png', ...iconSettings })
+            Leisure: L.icon({ iconUrl: 'https://raw.githubusercontent.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/main/Leisure.png', ...iconSettings }),
+            Nature: L.icon({ iconUrl: 'https://raw.githubusercontent.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/main/Nature.png', ...iconSettings }),
+            Hindu: L.icon({ iconUrl: 'https://raw.githubusercontent.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/main/Religious%20(Hindu).png', ...iconSettings }),
+            Muslim: L.icon({ iconUrl: 'https://raw.githubusercontent.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/main/Religious%20(Muslim).jpg', ...iconSettings }),
+            Jain: L.icon({ iconUrl: 'https://raw.githubusercontent.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/main/Religious%20(Jain).png', ...iconSettings }),
+            Heritage: L.icon({ iconUrl: 'https://raw.githubusercontent.com/daxmehta/FOSSIP-2026-Project---Dax-Mehta/main/Historic.png', ...iconSettings })
         };
     
         // Fallback icon in case a category doesn't match
@@ -229,7 +229,7 @@
       div.innerHTML += "<h4 style='margin: 0 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 4px;'> Map Legend </h4>";
       div.innerHTML += '<div style="margin-bottom: 6px;"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" width="12" style="vertical-align: middle; margin-right: 8px; margin-left: 2px;"> Tourist Places</div>';
       div.innerHTML += '<div><span style="display:inline-block; width:16px; height:16px; background:rgba(255, 255, 0, 0.3); border: 2px solid red; border-radius: 3px; vertical-align: middle; margin-right: 8px;"></span> Tourism Zone</div>';
-      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="Leisure.png" width="25" style="vertical-align: middle;horizontal-align: middle"> Trial</div>';
+      div.innerHTML += '<div style="margin-bottom: 6px;"><img src="https://raw.githubusercontent.com 	/daxmehta/FOSSIP-2026-Project---Dax-Mehta/blob/30e3c499699a876734d5f8bf10c71d7351e40387/Leisure.png" width="25" style="vertical-align: middle;horizontal-align: middle"> Trial</div>';
       return div;
     };
     legend.addTo(map);
